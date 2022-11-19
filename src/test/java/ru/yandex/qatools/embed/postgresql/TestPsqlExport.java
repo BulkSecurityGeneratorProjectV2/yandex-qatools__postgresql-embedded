@@ -3,6 +3,7 @@ package ru.yandex.qatools.embed.postgresql;
 import org.junit.Test;
 
 import java.io.File;
+import java.nio.file.Files;
 
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -16,7 +17,7 @@ public class TestPsqlExport extends AbstractPsqlTest {
         process.importFromFile(new File("src/test/resources/test.backup"));
         assertThat(conn, not(nullValue()));
 
-        File fullExportDump = File.createTempFile("full_", ".dmp");
+        File fullExportDump = Files.createTempFile("full_", ".dmp").toFile();
         try {
             process.exportToFile(fullExportDump);
             assertTrue(fullExportDump.length() > 0);
@@ -24,7 +25,7 @@ public class TestPsqlExport extends AbstractPsqlTest {
             assertTrue(fullExportDump.delete());
         }
 
-        File schemeDump = File.createTempFile("scheme_", ".dmp");
+        File schemeDump = Files.createTempFile("scheme_", ".dmp").toFile();
         try {
             process.exportSchemeToFile(schemeDump);
             assertTrue(schemeDump.length() > 0);
@@ -32,7 +33,7 @@ public class TestPsqlExport extends AbstractPsqlTest {
             assertTrue(schemeDump.delete());
         }
 
-        File dataExportDump = File.createTempFile("data_", ".dmp");
+        File dataExportDump = Files.createTempFile("data_", ".dmp").toFile();
         try {
             process.exportToFile(dataExportDump);
             assertTrue(dataExportDump.length() > 0);
